@@ -44,24 +44,37 @@ def haversine(coord1: Coordenada, coord2: Coordenada) -> float:
     distance = R * c
     return distance
 
-# Función principal para encontrar la distancia entre dos ciudades
-def find_distance_between_cities(ciudad1: Ciudad, ciudad2: Ciudad):
+# Función principal para encontrar las dos ciudades más cercanas de tres ciudades dadas
+def find_closest_pair_of_cities(ciudad1: Ciudad, ciudad2: Ciudad, ciudad3: Ciudad):
     csv_service = CsvLocationService('worldcities.csv')
     
-    # Obtener las coordenadas de las dos ciudades
+    # Obtener las coordenadas de las tres ciudades
     coord1 = csv_service.get_coordinates(ciudad1)
     coord2 = csv_service.get_coordinates(ciudad2)
+    coord3 = csv_service.get_coordinates(ciudad3)
 
-    if not coord1 or not coord2:
-        print('No se ha encontrado una ciudad.')
+    if not coord1 or not coord2 or not coord3:
+        print('No se ha encontrado una o más ciudades.')
         return
 
-    # Calcular la distancia usando la fórmula del haversine
-    distance = haversine(coord1, coord2)
-    print(f'La distancia entre {ciudad1.ciudad}, {ciudad1.pais} y {ciudad2.ciudad}, {ciudad2.pais} es {distance:.2f} km.')
+    # Calcular las distancias entre cada par de ciudades
+    distance_1_2 = haversine(coord1, coord2)
+    distance_1_3 = haversine(coord1, coord3)
+    distance_2_3 = haversine(coord2, coord3)
+
+    # Determinar el par más cercano
+    min_distance = min(distance_1_2, distance_1_3, distance_2_3)
+    if min_distance == distance_1_2:
+        closest_pair = (ciudad1, ciudad2)
+    elif min_distance == distance_1_3:
+        closest_pair = (ciudad1, ciudad3)
+    else:
+        closest_pair = (ciudad2, ciudad3)
+
+    print(f'La distancia más corta es entre {closest_pair[0].ciudad}, {closest_pair[0].pais} y {closest_pair[1].ciudad}, {closest_pair[1].pais} con una distancia de {min_distance:.2f} km.')
 
 # Ejemplo de uso
-ciudad1 = Ciudad('Japan', 'Tokyo')
-ciudad2 = Ciudad('Argentina', 'Buenos Aires')
-find_distance_between_cities(ciudad1, ciudad2)
-
+ciudad1 = Ciudad('Peru', 'Lima')
+ciudad2 = Ciudad('Colombia', 'Bogota')
+ciudad3 = Ciudad('Argentina', 'Buenos Aires')
+find_closest_pair_of_cities(ciudad1, ciudad2, ciudad3)
