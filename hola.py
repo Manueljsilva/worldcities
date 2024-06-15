@@ -53,12 +53,11 @@ def find_distance_between_cities(ciudad1: Ciudad, ciudad2: Ciudad):
     coord2 = csv_service.get_coordinates(ciudad2)
 
     if not coord1 or not coord2:
-        print('No se ha encontrado una ciudad.')
-        return
+        return 'No se ha encontrado una ciudad.'
 
     # Calcular la distancia usando la fórmula del haversine
     distance = haversine(coord1, coord2)
-    print(f'La distancia entre {ciudad1.ciudad}, {ciudad1.pais} y {ciudad2.ciudad}, {ciudad2.pais} es {distance:.2f} km.')
+    return f'{distance:.2f} km' 
 
 # Ejemplo de uso
 ciudad1 = Ciudad('Japan', 'Tokyo')
