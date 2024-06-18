@@ -13,6 +13,12 @@ class TestLocateCities(unittest.TestCase):
         ciudad2 = hola.Ciudad('Argentina', 'Buenos Aires')
         result = hola.find_distance_between_cities(ciudad1, ciudad2)
         self.assertEqual(result, 'No se ha encontrado una ciudad.')
+    # ciudades iguales 
+    def test_same_city(self):
+        ciudad1 = hola.Ciudad('Japan', 'Tokyo')
+        ciudad2 = hola.Ciudad('Japan', 'Tokyo')
+        result = hola.find_distance_between_cities(ciudad1, ciudad2)
+        self.assertEqual(result, 'Es la misma ciudad.')
 
 if __name__ == '__main__':
     unittest.main()

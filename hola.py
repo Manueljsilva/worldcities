@@ -54,7 +54,9 @@ def find_distance_between_cities(ciudad1: Ciudad, ciudad2: Ciudad):
 
     if not coord1 or not coord2:
         return 'No se ha encontrado una ciudad.'
-
+    #si la ciudad es igual 
+    if coord1.latitud == coord2.latitud and coord1.longitud == coord2.longitud:
+        return 'Es la misma ciudad.'
     # Calcular la distancia usando la fórmula del haversine
     distance = haversine(coord1, coord2)
     return f'{distance:.2f} km' 
